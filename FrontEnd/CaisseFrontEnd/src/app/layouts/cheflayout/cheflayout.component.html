@@ -1,0 +1,38 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false" >
+      <img src="./assets/img/logoarabsoft.png" style="top:20px s ;" height="80" width="200"/>
+      <a style="color: #1e56a3;">_________________________________</a>
+
+    <mat-toolbar style="color: #eb9300;">Menu</mat-toolbar>
+    <mat-nav-list class="list">
+      
+      
+      <a mat-list-item href="#facture" routerLink="/chef/session" >Gestion des Sessions</a>
+      <a mat-list-item href="#facture" routerLink="/chef/facture" >Gestion des factures</a>
+      <a mat-list-item href="#userProfile" routerLink="/chef/userProfile" >Mon Profile</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="tool" style="background-color: #1e56a3; color: white;">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon" >menu</mat-icon>
+      </button>
+      <span>{{UserName}}</span>
+      <a style="  padding-left: 990px;">
+        <button mat-flat-button style=" background-color:#1e56a3 ; color: white;" (click)="logout()">
+        <mat-icon class="icon">input</mat-icon>
+        <span class="label" style="width: 20px;" ></span>
+        </button>
+       </a>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

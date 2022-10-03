@@ -1,0 +1,33 @@
+.CardMain {
+    position: relative;
+    border-style: groove;
+    border-color: #eb9300;
+    border-radius: 10px;
+    color: #1e56a3;
+  }
+  table {
+    width: 100%;
+ 
+  }
+  .card{
+    border-style: groove;
+    border-color: #1e56a3;
+    border-radius: 10px;
+  }
+
+  .mat-elevation-z8 .mat-table .mat-header-cell {
+    color: #1e56a3;
+  }
+
+
+
+  tr:nth-child(even) {background-color: #f6f6f6;}
+
+  th {
+    color: #1e56a3;
+  }
+  Nesrine Andolsi
+.table-responsive {
+    border: none !important;
+  }
+

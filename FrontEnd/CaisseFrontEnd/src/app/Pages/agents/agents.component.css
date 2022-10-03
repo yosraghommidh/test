@@ -1,0 +1,22 @@
+.CardMain {
+    position: relative;
+    border-style: groove;
+    border-color: #eb9300;
+    border-radius: 10px;
+    color: #1e56a3;
+  }
+  table {
+    width: 100%;
+ 
+  }
+  .mat-elevation-z8 .mat-table .mat-header-cell {
+    color: #1e56a3;
+  }
+
+
+
+  tr:nth-child(even) {background-color: #f6f6f6;}
+
+  th {
+    color: #1e56a3;
+  }

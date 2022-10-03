@@ -1,0 +1,128 @@
+
+<h3 style="position: relative; margin-top: 10px;" *ngIf="HideS" >
+    <button mat-stroked-button (click)="openSess()" style="border: 3px solid #eb9300; position: relative; margin-left : 900px ;color: #1e56a3;  ">Ouvrir une session</button>
+    <button mat-stroked-button  (click)="closeJ()" style="border: 3px solid #eb9300; position: absolute; margin-left : 40px ; color: #1e56a3;  ">Cloturer La journée</button>
+</h3>
+<h3 style="position: relative; margin-top: 10px;" *ngIf="HideJ" >
+    <button mat-stroked-button (click)="openJ()" style="border: 3px solid #eb9300; position: relative; margin-left : 900px ;color: #1e56a3;  ">Ouvrir une journée</button>
+</h3>
+<mat-card class="CardMain" *ngIf="HideS">
+    <mat-card-title-group>
+        <mat-card-title style="color: #706f6f;"> 
+            Détails Journée
+        </mat-card-title>
+    </mat-card-title-group>
+    <mat-card-content>
+       <br/>
+       
+
+        <p  style="left: 320px;   position: absolute;">Montant initial :  &nbsp;&nbsp;{{mi}}</p>
+        <p >Guichet : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{guichet}} </p> 
+        <p  style="left: 320px;   position: absolute;">Montant total :   &nbsp;&nbsp;&nbsp;{{mi}}</p>
+        <p >Agent : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{agent}}</p> 
+        <p  style="left: 320px;   position: absolute;">Date d'ouverture :   &nbsp;&nbsp;&nbsp;2022-10-03 08:00</p>
+
+        <p>Nbr Sessions : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{session}}</p>
+
+    </mat-card-content>
+</mat-card>
+<p>_________________________________________________________________________________________________________________________________________________________________________________________________________________________</p>
+<mat-card class="CardMain" *ngIf="HideS">
+    <mat-card-title-group>
+        <mat-card-title style="color: #706f6f;"> 
+            Sessions Caisse
+        </mat-card-title>
+        
+    </mat-card-title-group>
+    <mar-card class="card" *ngIf="hide">
+    <mat-card-content>
+    <div *ngIf="hide">
+        <mat-form-field appearance="standard">
+            <mat-label>Caisse</mat-label>
+            <mat-select [formControl]="caisses" [(ngModel)]="c" >
+                <mat-option *ngFor="let caisse of caisseData"
+                 [value]="caisse.cah_id" >{{caisse.cah_id}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="standard">
+            <mat-label>Agent</mat-label>
+            <mat-select [formControl]="agentsform" [(ngModel)]="a"  >
+                <mat-option *ngFor="let ag of agentdata" 
+                 [value]="ag.age_id" >{{ag.age_id}} {{ag.age_name}}</mat-option>
+            </mat-select>        </mat-form-field>
+        <mat-form-field appearance="standard">
+            <mat-label>Mnt. initial</mat-label>
+            <input matInput placeholder="" [(ngModel)]="mnt">
+        </mat-form-field>
+        <mat-form-field appearance="standard">
+            <mat-label>Date d'ouverture</mat-label>
+            <input matInput placeholder="" [(ngModel)]="start">
+            <mat-hint> yyyy-MM-dd hh:mm</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="standard">
+            <mat-label>Date de fermeture</mat-label>
+            <input matInput placeholder="" [(ngModel)]="end">
+            <mat-hint> yyyy-MM-dd hh:mm</mat-hint>
+
+        </mat-form-field>
+        <button mat-stroked-button (click)="ajouterSession()" style="margin-left:40px  ; background-color:#1e56a3; color :white;">Valider</button>
+    </div>
+</mat-card-content>
+</mar-card >
+    <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="idcaisse">
+          <th mat-header-cell *matHeaderCellDef> Caisse</th>
+          <td mat-cell *matCellDef="let element"> {{element.cah_ID.cah_id}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="agent">
+          <th mat-header-cell *matHeaderCellDef>Agent </th>
+          <td mat-cell *matCellDef="let element let i=index ;"> {{agents[i]}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="initial">
+            <th mat-header-cell *matHeaderCellDef>Mnt. initial </th>
+            <td mat-cell *matCellDef="let element let i=index ;"> {{element.mnt_initial}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>Mnt. total </th>
+            <td mat-cell *matCellDef="let element let i=index ;"> {{element.mnt_initial}} </td>
+          </ng-container>
+
+
+        <ng-container matColumnDef="start">
+          <th mat-header-cell *matHeaderCellDef>Date d'ouverture </th>
+          <td mat-cell *matCellDef="let element">{{element.css_startdt | date: 'yyyy-MM-dd h:mm a'}}</td>
+        </ng-container>
+  
+  
+        <ng-container matColumnDef="end">
+          <th mat-header-cell *matHeaderCellDef> Date de fermeture </th>
+          <td mat-cell *matCellDef="let element"> {{element.css_enddt | date: 'yyyy-MM-dd h:mm a'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action </th>
+            <td mat-cell *matCellDef="let element let i=index ;">
+                <button mat-icon-button >
+                <mat-icon style="color:#1e56a3 ;">edit</mat-icon>
+            </button>
+                <button mat-raised-button  color="warn" > Clôturer</button>
+              </td>
+          </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons 
+    aria-label="Select page of periodic elements">
+</mat-paginator>
+</mat-card>
+
+<style type="text/css">
+    #e1 {float:left; margin-right: 10 px;}
+    #e2 {float:left;}
+    #e3 {float:left;}
+
+</style>

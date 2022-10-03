@@ -1,0 +1,293 @@
+<mat-card class="example-card" *ngIf="HideClient" >
+  <mat-card-title-group>
+    <mat-card-title style="color: #706f6f;">      
+      <mat-icon matSuffix color="warn">account_box</mat-icon>
+
+      Client</mat-card-title>
+    </mat-card-title-group>
+  <mat-card-content>
+
+    <p>  {{clientF.par_name}}</p>
+    <p>   {{clientF.address}}</p>
+  </mat-card-content>
+</mat-card>
+<mat-card class="CardMain" >
+
+  <mat-card-title-group>
+    <mat-card-content>
+   <div >
+      <p id="element1" style="left: 3px; margin: 8px;  position: absolute;">Caisse&nbsp;&nbsp;&nbsp;&nbsp; 
+        <mat-select style="  height: 20px; 
+        width: 40px;" [formControl]="caisses"  appearance="standard"  [disabled]="isDisabled" >
+          <mat-option *ngFor="let caisse of caisseData" [value]="caisse.cah_ID.cah_id" >{{caisse.cah_ID.cah_id}}</mat-option>
+        </mat-select>
+      </p>
+     <p id="element2"style="left: 120px; margin: 8px;  position: absolute;" >
+        Encaissement :&nbsp;&nbsp;&nbsp;
+      <mat-radio-group appearance="standard" [disabled]="isDisabled" [value]="2"
+      color="warn">
+        <mat-radio-button value="1" >Automatique</mat-radio-button>
+        <mat-radio-button value="2" [checked]="!isDisabled" >Manuel</mat-radio-button>
+      </mat-radio-group>
+      </p>
+<br>
+      <div class="A1" style="left: 3px;   position: absolute;">
+      <br>
+      <p style="margin: 1px;position: relative; "> Type d'opération :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <mat-form-field appearance="standard" style="width: 150px; height: 10px;" >
+          <mat-select [disabled]="isDisabled" [formControl]="OpType"  >
+            <mat-option *ngFor="let type of types" [value]="type.value">
+              {{type.viewValue}}
+          </mat-option>
+          </mat-select>
+      </mat-form-field>
+      </p> <br>
+      <p style="margin: 1px;position: relative;"> Organisation :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <mat-form-field appearance="standard" style="width: 150px;height: 10px;" >
+          <mat-select  [formControl]="OrgType"   [disabled]="isDisabled" >
+       <mat-option *ngFor="let org of Orgs" [value]="org.org_id">
+        {{org.org_name}}
+       </mat-option>
+          </mat-select>
+      </mat-form-field>
+      </p><br>
+      <p style="margin: 1px;position: relative;"> Mode de règlement :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <mat-form-field appearance="standard" style="width: 150px;height: 10px;"  >
+          <mat-select [disabled]="isDisabled" [formControl]="ModeRType" [(ngModel)]="moderegl" (selectionChange)="changeLibre($event.value)"  >
+            <mat-option *ngFor="let mode of ModesR" [value]="mode.value">
+              {{mode.viewValue}}
+          </mat-option>
+          </mat-select>
+      </mat-form-field>
+      </p>
+      <p style="margin: 1px;position: relative;">
+        Mnt. à verser :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <mat-form-field appearance="standard" style="width: 150px;height: 10px;">
+          <input matInput [disabled]="isDisabled" [(ngModel)]="verser" (ngModelChange)="getverser()" >
+        </mat-form-field>
+      </p >
+      <br><br><br>
+      <p style="margin: 1px;position: relative;">Rendu Caisse :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <mat-checkbox class="example-margin" color="warn" [disabled]="isDisabled" [checked]="checkrendu"></mat-checkbox>
+
+      <p>
+
+      </p>
+    </div>
+   <div>
+    <div class="A1" style="left: 400px;   position: absolute;">
+      <p style="margin: 1px;position: relative; ">Compte :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <mat-form-field appearance="standard" style="width: 150px;height: 10px;"  >
+          <mat-select [formControl]="Comptes" (selectionChange)="getSolde($event.value)" [disabled]="isDisabled" >
+            <mat-option *ngFor="let compte of ComptesData" [value]="compte.aco_id">
+              {{compte.aco_ref}}
+            </mat-option>
+          </mat-select>
+      </mat-form-field>
+      </p>
+      <br>   <br>   <br>   <br>
+      <p style="margin: 1px;position: relative; " >
+        Solde :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{montantPayer}}
+      </p>
+      <br>
+      <p style="margin: 1px;position: relative; ">
+        Excédent :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {{soldeL}}
+      </p>
+      <br>
+      <p style="margin: 1px;position: relative;">
+        Reste à ventiler :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {{ResteL}}
+      </p>
+    </div>
+    <div style="left: 730px;   position: absolute;">
+
+      <br>
+      <p style="margin: 1px;position: relative; ">Date :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <mat-form-field appearance="standard" style="width: 120px;height: 10px;">
+          <input matInput value="{{dateNow}}">
+        </mat-form-field>
+      </p>
+      <br><br>
+      <p id="element2"style=" position: relative;" >
+        Méthode de règlement :&nbsp;&nbsp;&nbsp;
+      <mat-radio-group appearance="standard" [disabled]="isDisabled" color="warn" >
+        <mat-radio-button value="1"  [checked]="!isDisabled">Mono</mat-radio-button>
+        <mat-radio-button value="2"  >Multiple</mat-radio-button>
+      </mat-radio-group>
+      </p>
+      <br><br>
+      <p style="margin: 1px;position: relative;">
+        Commentaire :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <mat-form-field appearance="outline" style="width: 170px;height: 50px;">
+          <input matInput [disabled]="isDisabled">
+        </mat-form-field>
+      </p>
+      <br><br>
+      <button mat-raised-button color="warn" [disabled]="isDisabled" (click)="Encaisser()" >Encaisser</button>
+<br>
+      <div class="alert" *ngIf="pay" >
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+  Encaissement réussi!
+</div>
+    </div>
+    </div>
+  </div>
+
+  </mat-card-content>
+
+
+      <div class="form"  >
+        
+          <mat-form-field appearance="standard" style="width: 150px;" >
+              <input matInput type="text" [formControl]="searchCtrl" >
+              <mat-icon matSuffix (click)="search(searchCtrl , searchTypeCtrl)">search</mat-icon>
+          </mat-form-field>
+          <mat-form-field appearance="standard" style="width: 100px;" >
+              <mat-select [formControl]="searchTypeCtrl"  >
+                  <mat-option *ngFor="let option of searchTypeOptions" [value]="option.value" >{{ option.label }}</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <button matTooltip="Refresh" mat-icon-button (click)="refresh()">
+            <mat-icon>refresh</mat-icon>
+          </button>
+      </div>
+  </mat-card-title-group>
+  <!-- ... -->
+</mat-card>
+<div class="mat-elevation-z8">
+  <h3 style="color: #706f6f ;"><br>Liste des factures liées
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Montant à rendre {{rendu}}
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Total à payer {{montantPayer}}
+  </h3>
+
+  
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="Ref">
+        <th mat-header-cell *matHeaderCellDef> Référence Fact</th>
+        <td mat-cell *matCellDef="let element"> {{element.debrefe}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="train">
+        <th mat-header-cell *matHeaderCellDef>Train Fact </th>
+        <td mat-cell *matCellDef="let element">{{element.run_name}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Type </th>
+        <td mat-cell *matCellDef="let element">{{element.vow_debtype_libelle}}</td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="Date">
+        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.deb_date | date: 'yyyy-MM-dd'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="DateE">
+        <th mat-header-cell *matHeaderCellDef> Date d'exigibilité </th>
+        <td mat-cell *matCellDef="let element"> {{element.deb_duedt | date: 'yyyy-MM-dd'}} </td>
+      </ng-container>
+  
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="montant">
+        <th mat-header-cell *matHeaderCellDef> Montant </th>
+        <td mat-cell *matCellDef="let element"> {{element.deb_amountinit}} </td>
+      </ng-container>
+
+      
+      <ng-container matColumnDef="Dette">
+        <th mat-header-cell *matHeaderCellDef> Reste du initial </th>
+        <td mat-cell *matCellDef="let element" > {{element.deb_amountinit - element.deb_AMOUNT_CASH}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Encaissement">
+        <th mat-header-cell *matHeaderCellDef> Encaissé </th>
+        <td mat-cell *matCellDef="let element"> {{element.deb_AMOUNT_CASH}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="CRef">
+        <th mat-header-cell *matHeaderCellDef> Client Ref </th>
+        <td mat-cell *matCellDef="let element"> {{element.par_ID.par_refe}}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="Org">
+        <th mat-header-cell *matHeaderCellDef> Organisation </th>
+        <td mat-cell *matCellDef="let element"> {{element.org_ID.org_name}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="compte">
+        <th mat-header-cell *matHeaderCellDef> Compte </th>
+        <td mat-cell *matCellDef="let element"> {{element.aco_ID.aco_amount}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="MontV">
+        <th mat-header-cell *matHeaderCellDef> Montant à verser </th>
+        <td mat-cell *matCellDef="let element">  {{element.deb_amountinit - element.deb_AMOUNT_CASH}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element let i = index;"> 
+          <button mat-flat-button color="primary" 
+          style="color: white; background-color :#1e56a3; " 
+          (click)="payer_Fact(i)" >Payer</button>
+          <button mat-icon-button  >
+            <mat-icon color="warn">picture_as_pdf</mat-icon>
+                    </button>
+            <input type="checkbox"  [(ngModel)]="checktab[i]" (ngModelChange)="checked(i);">
+
+
+         </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+   
+    </table>
+ 
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                   showFirstLastButtons 
+                   aria-label="Select page of periodic elements">
+    </mat-paginator>
+
+  </div>
+  <style type="text/css">
+    #element1 {float:left; margin-right: 10 px;}
+    #element2 {float:left;}
+    #element3 {float:left;}
+.alert {
+  padding: 15px;
+  background-color: #84bda438 ;
+  margin-top: 5px;
+  color: #084423;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: #084423;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+</style>
+

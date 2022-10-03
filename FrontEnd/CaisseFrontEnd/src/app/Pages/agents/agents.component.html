@@ -1,0 +1,60 @@
+<mat-card class="CardMain">
+    <mat-card-title style="color: #706f6f;"> 
+        Liste des utilisateurs
+    </mat-card-title>
+    <div class="form" style="margin-left: 920px;" >
+        
+      <mat-form-field appearance="standard" style="width: 150px;" >
+          <input matInput type="text" [formControl]="searchCtrl" >
+          <mat-icon matSuffix >search</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="standard" style="width: 100px;" >
+          <mat-select [formControl]="searchTypeCtrl"  >
+              <mat-option *ngFor="let option of searchTypeOptions" [value]="option.value" >{{ option.label }}</mat-option>
+          </mat-select>
+      </mat-form-field>
+      <button matTooltip="Refresh" mat-icon-button >
+        <mat-icon>refresh</mat-icon>
+      </button>
+  </div>
+    <button mat-raised-button  style=" position: 
+    relative; margin-left : 1100px ; margin-bottom: 18px;  " color="warn">Ajouter</button>
+
+    <table mat-table [dataSource]="dataSource" >
+        <ng-container matColumnDef="ref">
+          <th mat-header-cell *matHeaderCellDef> Matricule</th>
+          <td mat-cell *matCellDef="let element"> {{element.dis_ADMUSER.dis_USE_MATRICULE}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="nom">
+          <th mat-header-cell *matHeaderCellDef>Nom et prénom </th>
+          <td mat-cell *matCellDef="let element let i=index ;"> {{element.dis_ADMUSER.dis_USE_FNAME}}
+             {{element.dis_ADMUSER.dis_USE_LNAME }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="profil">
+            <th mat-header-cell *matHeaderCellDef>Profile </th>
+            <td mat-cell *matCellDef="let element let i=index ;" >{{element.dis_ADMPROFILE[0].dis_PRU_LABEL}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action </th>
+            <td mat-cell *matCellDef="let element let i=index ;">
+                <button mat-icon-button >
+                <mat-icon style="color:#1e56a3 ;">edit</mat-icon>
+            </button>
+                <button mat-icon-button  (click)="deleteup(element.dis_USE_ID)" style="width:1px ;">
+                <mat-icon color="warn" >delete</mat-icon>
+            </button>
+              </td>
+          </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons 
+    aria-label="Select page of periodic elements">
+</mat-paginator>
+</mat-card>

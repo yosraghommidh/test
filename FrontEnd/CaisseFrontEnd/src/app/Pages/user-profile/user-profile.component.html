@@ -1,0 +1,23 @@
+<mat-card class="box">
+  <mat-card-header>
+    <img src="../assets/img/user1.png" alt="Girl in a jacket" width="50" height="60" style=" padding-left: 1000px;">
+    <mat-card-title style="color: #eb9300; align-self: center;">Mon Profile</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content >
+    <div style="align-content: center;">
+    <mat-card-subtitle>Nom et prenom  : </mat-card-subtitle>
+    <span>{{UserName}}</span>
+    <br />
+    <br />
+    <br />
+    <mat-card-subtitle>Nom d'utilisateur  : </mat-card-subtitle>
+    <span>{{userP.login}}</span>
+    <br />
+    <br />
+    <br />
+    <mat-card-subtitle>Profile : </mat-card-subtitle>
+    <span>{{userP.dis_ADMPROFILE[0].dis_PRU_LABEL}}</span>
+  </div>
+</mat-card-content>
+</mat-card>
