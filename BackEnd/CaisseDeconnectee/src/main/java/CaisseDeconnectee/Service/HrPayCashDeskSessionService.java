@@ -30,6 +30,10 @@ public class HrPayCashDeskSessionService {
 	  return HPs ;
 	}
 	
+	public  HrPayCashDeskSession retreiveOne(long id){
+       HrPayCashDeskSession HP = HPCDeskSRepo.findById(id).get();
+	  return HP ;
+	}
 	
 	public HrPayCashDeskSession update (HrPayCashDeskSession A , long id) {
 		Optional<HrPayCashDeskSession> u = HPCDeskSRepo.findById(id);

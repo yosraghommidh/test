@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 @Document(collection="HrPayCashDesk")
 
 public class HrPayCashDesk {

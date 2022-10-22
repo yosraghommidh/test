@@ -1,8 +1,11 @@
 package CaisseDeconnectee.Controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +48,10 @@ public class JwtController {
     	
     	JwtResponse r =jwtService.createJwtToken(jwtRequest);
     	System.out.println(r.getJwtToken());
-
+    	DisAdmUserProfile user = repo.findByLOGIN(jwtRequest.getUserName());
+    	Set<SimpleGrantedAuthority> role =jwtService.getAuthority(user);
+    	String rl =role.toString();
+    	r.setRole(rl);
         return r;
     }
     @GetMapping({"/getUserNameJWT/{jwt}"})

@@ -51,7 +51,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         		.antMatchers(HttpMethod.POST,"/Auth/authenticate" ).permitAll()
         		.antMatchers(HttpMethod.GET,"/Auth/getUserNameJWT/**"   ).permitAll()
         		.antMatchers(HttpMethod.GET,"/Auth/getAgentId/**"  ).permitAll()
-        		.antMatchers(HttpMethod.GET,"/Auth/getUserJWT/**" ,"/Auth/getUserFLJWT/**" ,"/Auth/getUserRoleJWT/{jwt}" ).permitAll()
+        		.antMatchers(HttpMethod.GET,"/Auth/getUserJWT/**" ,"/Auth/getUserFLJWT/**" ,
+        				"/Auth/getUserRoleJWT/{jwt}" ).permitAll()
                 .antMatchers(HttpHeaders.ALLOW).permitAll()
                 .anyRequest().authenticated()
                 .and()

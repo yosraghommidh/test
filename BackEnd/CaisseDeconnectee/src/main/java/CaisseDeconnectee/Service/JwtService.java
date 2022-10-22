@@ -42,7 +42,7 @@ public class JwtService implements UserDetailsService {
         authenticate(userName, userPassword);
         UserDetails userDetails = loadUserByUsername(userName);
         String newGeneratedToken = jwtUtil.generateToken(userDetails);
-                return new JwtResponse( newGeneratedToken);
+                return new JwtResponse( newGeneratedToken,   userDetails.getAuthorities().toString());
     }
    
 
@@ -61,7 +61,7 @@ public class JwtService implements UserDetailsService {
         }
     }
 
-    private Set<SimpleGrantedAuthority> getAuthority(DisAdmUserProfile user) {
+    public Set<SimpleGrantedAuthority> getAuthority(DisAdmUserProfile user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         	for (DisAdmProfile p : user.getDIS_ADMPROFILE())
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + p.getDIS_PRU_LABEL()));
@@ -70,8 +70,9 @@ public class JwtService implements UserDetailsService {
 
     
     private void authenticate(String userName, String userPassword) throws Exception {
+    	DisAdmUserProfile user = AdmUPRepo.findByLOGIN(userName);
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, userPassword));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, userPassword, getAuthority(user) ));
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
